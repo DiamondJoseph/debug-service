@@ -14,7 +14,8 @@ ENV PATH=/venv/bin:$PATH
 
 # The build stage installs the context into the venv
 FROM developer AS build
-COPY --chmod=777 . /workspaces/service
+# Requires buildkit 0.17.0
+COPY --chmod=o+wrX . /workspaces/service
 WORKDIR /workspaces/service
 RUN touch dev-requirements.txt && pip install -c dev-requirements.txt .
 
