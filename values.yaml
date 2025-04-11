@@ -1,0 +1,29 @@
+image:
+  tag: 0.1.5
+
+volumes:
+- name: home  # Required for vscode to install plugins
+  hostPath:
+    path: /home/qwe67581
+- name: nslcd  # Shared volume between main and sidecar container
+  emptyDir:
+    sizeLimit: 500Mi
+
+volumeMounts:
+- mountPath: /home/qwe67581/
+  name: home
+- mountPath: /var/run/nslcd
+  name: nslcd
+
+# Disable any liveness probe, as will not start service automatically
+livenessProbe: null
+readinessProbe: null
+
+# Required to mount /home/, /dls/ etc.
+podSecurityContext:
+  runAsUser: 1215763
+  runAsGroup: 1215763
+
+debug:
+  enabled: true
+  home: /home/qwe67581/

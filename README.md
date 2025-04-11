@@ -5,28 +5,13 @@
 
 # service
 
-Test service for demonstrating debug options
+Test service for demonstrating debug options for a PR to [the python-copier-template](https://github.com/DiamondLightSource/python-copier-template/pull/251).
 
-This is where you should write a short paragraph that describes what your module does,
-how it does it, and why people should use it.
+This service is configured with two endpoints: a `healthz` endpoint used by Kubernetes and a `test` endpoint which is purposefully broken to demonstrate debugging and testing on the cluster.
+
+The example values.yaml in the root of this repository, when configured with your account details, deploys the broken version of the app. Connect to a devcontainer from a local vscode instance, make a fix internal to the cluster and push the changes to this repository.
 
 Source          | <https://github.com/DiamondJoseph/debug_service>
 :---:           | :---:
 Docker          | `docker run ghcr.io/diamondjoseph/debug_service:latest`
 Releases        | <https://github.com/DiamondJoseph/debug_service/releases>
-
-This is where you should put some images or code snippets that illustrate
-some relevant examples. If it is a library then you might put some
-introductory code here:
-
-```python
-from service import __version__
-
-print(f"Hello service {__version__}")
-```
-
-Or if it is a commandline tool then you might put some example commands here:
-
-```
-python -m service --version
-```

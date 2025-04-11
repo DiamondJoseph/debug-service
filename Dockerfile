@@ -23,7 +23,6 @@ FROM build AS debug
 
 RUN git remote set-url origin git@github.com:diamondjoseph/debug-service.git
 RUN apt update
-# TODO: Is this required?
 RUN DEBIAN_FRONTEND=noninteractive apt install libnss-ldapd -y
 RUN sed -i 's/files/files ldap/g' /etc/nsswitch.conf
 
