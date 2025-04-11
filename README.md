@@ -11,6 +11,8 @@ This service is configured with two endpoints: a `healthz` endpoint used by Kube
 
 The example values.yaml in the root of this repository, when configured with your account details, deploys the broken version of the app. Connect to a devcontainer from a local vscode instance, make a fix internal to the cluster and push the changes to this repository.
 
+To install the Helm chart into the cluster, `helm install test oci://ghcr.io/diamondjoseph/charts/service -f values.yaml`
+
 Source          | <https://github.com/DiamondJoseph/debug_service>
 :---:           | :---:
 Docker          | `docker run ghcr.io/diamondjoseph/debug_service:latest`
