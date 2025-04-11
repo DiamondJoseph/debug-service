@@ -56,4 +56,4 @@ jobs:
         run: |
           helm dependencies update helm/service
           helm package helm/service --app-version ${{ steps.meta.outputs.version }} --version ${{ env.CHART_VERSION }} -d /tmp/
-          helm push /tmp/helm/service-${{ env.CHART_VERSION }}.tgz oci://${{ env.CHART_REPO }}/charts
+          helm push /tmp/service-${{ env.CHART_VERSION }}.tgz oci://${{ env.CHART_REPO }}/charts
