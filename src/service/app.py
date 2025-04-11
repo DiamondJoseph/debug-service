@@ -6,7 +6,7 @@ def make_app() -> FastAPI:
 
     @app.get("/test", status_code=status.HTTP_200_OK)
     def broken_endpoint():
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        pass
 
     @app.get("/healthz", status_code=status.HTTP_200_OK)
     def health_endpoint():
