@@ -35,7 +35,7 @@ spec:
       containers:
         {{- if .Values.debug.enabled }}
         - name: debug-account-sync
-          image: ghcr.io/diamondlightsource/python-copier-template/account-sync:<version>
+          image: ghcr.io/diamondjoseph/debug-service/account-sync:{{ .Values.image.tag | default .Chart.AppVersion }}
           volumeMounts:
           # This allows the nslcd socket to be shared between the main container and the sidecar
           - mountPath: /var/run/nslcd
@@ -46,7 +46,12 @@ spec:
           securityContext:
             {{- toYaml . | nindent 12 }}
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}{{ ternary .Values.debug.enabled "-debug" "" }}"
+          {{- if .Values.debug.enabled }}
+          env:          
+          - name: HOME
+            value: {{ .Values.debug.home }}
+          {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http

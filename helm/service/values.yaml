@@ -1,5 +1,6 @@
 debug:
   enabled: false
+  home: /home/<fedid>
 
 # Default values for service.
 # This is a YAML-formatted file.
