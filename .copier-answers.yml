@@ -1,0 +1,15 @@
+# Changes here will be overwritten by Copier
+_commit: 2.6.0
+_src_path: gh:DiamondLightSource/python-copier-template
+author_email: joseph.ware@diamond.ac.uk
+author_name: Joseph Ware
+description: Test service for demonstrating debug options
+distribution_name: debug_service
+docker: true
+docs_type: README
+git_platform: github.com
+github_org: DiamondJoseph
+package_name: service
+pypi: false
+repo_name: debug_service
+type_checker: pyright
