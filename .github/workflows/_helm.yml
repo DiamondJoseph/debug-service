@@ -36,38 +36,18 @@ jobs:
         run: |
           echo ${{ secrets.GITHUB_TOKEN }} | helm registry login ${{ env.CHART_REPO }} --username ${{ github.repository_owner }} --password-stdin
 
-
-      - name: Get current Helm chart version
-        id: helm_current
-        if: github.ref_type == 'tag'
-        uses: mikefarah/yq@master
-        with:
-          cmd: helm show chart helm/service | yq '.version' | cut -d "\"" -f 2
-
-      - name: Get latest Helm chart version
-        if: github.ref_type == 'tag'
-        id: helm_latest
-        uses: mikefarah/yq@master
-        with:
-          cmd: |-
-            # Gets the latest published Helm chart version
-            if helm show chart oci://${{ env.CHART_REPO }}/charts/service
-            then
-              helm show chart oci://${{ env.CHART_REPO }}/charts/service | yq '.version' | cut -d "\"" -f 2
-            else
-              # This is the first time our Helm chart has been published
-              echo "0.0.0"
-            fi
-
       - name: Bump patch version if necessary
         if: github.ref_type == 'tag'
         run: |
-          if dpkg --compare-versions ${{ steps.helm_current.outputs.result }} le ${{ steps.helm_latest.outputs.result }}
+          NEXT=`helm show chart helm/service | grep -E "^version:" | awk '{print $2}'`
+          if helm show chart oci://${{ env.CHART_REPO }}/charts/service
           then
-            # latest is same or after new tag, give it a patch bump
-            NEXT=`echo $LATEST | awk -F. -v OFS=. '{$NF += 1 ; print}'` 
-          else
-            NEXT=${{ steps.helm_current.outputs.result }}
+            LATEST=`helm show chart oci://${{ env.CHART_REPO }}/charts/service | grep -E "^version:" | awk '{print $2}'`
+            if dpkg --compare-versions $NEXT le $LATEST
+            then
+              # latest is same or after new tag, give it a patch bump
+              NEXT=`echo $LATEST | awk -F. -v OFS=. '{$NF += 1 ; print}'` 
+            fi
           fi
           echo "CHART_VERSION=$NEXT" >>${GITHUB_ENV}
 
