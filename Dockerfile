@@ -25,5 +25,5 @@ COPY --from=build /venv/ /venv/
 ENV PATH=/venv/bin:$PATH
 
 # change this entrypoint if it is not the same as the repo
-ENTRYPOINT ["debug_service"]
-CMD ["--version"]
+ENTRYPOINT [ "debug_service" ]
+CMD [ "serve", "--host", "0.0.0.0", "--port", "8000" ]
