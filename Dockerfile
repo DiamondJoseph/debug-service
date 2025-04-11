@@ -14,9 +14,22 @@ ENV PATH=/venv/bin:$PATH
 
 # The build stage installs the context into the venv
 FROM developer AS build
-COPY . /context
-WORKDIR /context
+COPY --chmod=777 . /workspaces/service
+WORKDIR /workspaces/service
 RUN touch dev-requirements.txt && pip install -c dev-requirements.txt .
+
+FROM build AS debug
+
+RUN apt update
+# TODO: Is this required?
+RUN DEBIAN_FRONTEND=noninteractive apt install libnss-ldapd -y
+RUN sed -i 's/files/files ldap/g' /etc/nsswitch.conf
+
+RUN pip install debugpy
+RUN pip install -e .
+
+ENTRYPOINT [ "/bin/bash", "-c", "--" ]
+CMD [ "while true; do sleep 30; done;" ]
 
 # The runtime stage copies the built venv into a slim runtime container
 FROM python:${PYTHON_VERSION}-slim AS runtime
