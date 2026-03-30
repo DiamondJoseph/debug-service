@@ -14,18 +14,18 @@ jobs:
           OWNER: "${{ github.repository_owner }}"
 
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Get appVersion to insert into chart
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ghcr.io/${{ github.repository }}
           tags: |
             type=ref,event=tag
 
       - name: Install Helm
-        uses: Azure/setup-helm@v4
+        uses: Azure/setup-helm@v5
         id: install
 
       - name: Lint Helm chart
